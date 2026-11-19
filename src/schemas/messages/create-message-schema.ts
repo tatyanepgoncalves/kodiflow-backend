@@ -19,6 +19,10 @@ export const createMessageSchema = z.object({
   customerName: z.string().trim().min(1).max(120).optional(),
 })
 
+export const listMessagesQuerySchema = z.object({
+  category: messageCategorySchema.optional(),
+})
+
 export const aiClassificationSchema = z.object({
   category: messageCategorySchema,
   urgency: messageUrgencySchema,
@@ -48,4 +52,5 @@ export const geminiGenerateContentResponseSchema = z.object({
 })
 
 export type CreateMessageInput = z.infer<typeof createMessageSchema>
+export type ListMessagesQuery = z.infer<typeof listMessagesQuerySchema>
 export type AIClassificationResult = z.infer<typeof aiClassificationSchema>
