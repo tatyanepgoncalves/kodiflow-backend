@@ -1,0 +1,39 @@
+services:
+  postgres_kodiflow:
+    image: postgres:16-alpine
+    container_name: server_kodiflow
+    restart: always
+    env_file:
+      - .env
+    environment:
+      TZ: ${DB_TZ}
+      PGTZ: ${DB_TIMEZONE}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+
+  n8n:
+    image: docker.io/n8nio/n8n:latest
+    container_name: kodiflow-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=localhost
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://localhost:5678/
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - postgres_kodiflow
+ 
+volumes:
+  postgres_data:
+  n8n_data:
