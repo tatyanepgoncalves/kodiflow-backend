@@ -1,0 +1,43 @@
+{
+  "name": "kodiflow-backend",
+  "version": "1.0.0",
+  "description": "Solução desenvolvida para o **Desafio Técnico de IA e Automação (KODIE)**, integrando Inteligência Artificial, API REST e fluxos automatizados para otimizar a triagem de mensagens no atendimento ao cliente.",
+  "keywords": [],
+  "homepage": "https://github.com/tatyanepgoncalves/kodiflow-backend#readme",
+  "bugs": {
+    "url": "https://github.com/tatyanepgoncalves/kodiflow-backend/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tatyanepgoncalves/kodiflow-backend.git"
+  },
+  "license": "ISC",
+  "author": "Tatyane Gonçalves",
+  "type": "module",
+  "main": "src/server.ts",
+  "scripts": {
+    "check": "ultracite check",
+    "dev": "node --env-file=.env --experimental-strip-types --no-warnings --watch src/server.ts",
+    "fix": "ultracite fix",
+    "start": "node --experimental-strip-types --no-warnings src/server.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "drizzle-orm": "^0.45.4",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "ultracite": "8.2.1"
+  }
+}
