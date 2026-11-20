@@ -4,5 +4,9 @@ import { listMessagesController } from './controllers/messages/list-messages-con
 
 export const routes = Router()
 
+routes.get('/', (_request, response) => {
+  response.status(200).json({ message: 'API KodiFlow está no ar.' })
+})
+
 routes.get('/messages', listMessagesController)
 routes.post('/messages', createMessagesController)

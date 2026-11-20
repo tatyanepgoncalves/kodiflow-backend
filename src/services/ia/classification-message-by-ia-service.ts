@@ -1,7 +1,8 @@
+import { env } from '../../config/env.ts'
+import { gemini } from '../../config/gemini.ts'
 import {
   type AIClassificationResult,
   aiClassificationSchema,
-  geminiGenerateContentResponseSchema,
 } from '../../schemas/messages/create-message-schema.ts'
 
 export async function classifyMessageByIa(
@@ -35,37 +36,22 @@ export async function classifyMessageByIa(
       """${message}"""
     `.trim()
 
-  // Chamada à API de IA configurada via ambiente (ex.: GEMINI_API_KEY)
   const apiKey = process.env.GEMINI_API_KEY
   if (!apiKey) {
     throw new Error('GEMINI_API_KEY não configurada no ambiente.')
   }
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: {
-          responseMimeType: 'application/json',
-          temperature: 0.1,
-        },
-      }),
-    }
-  )
+  const response = await gemini.models.generateContent({
+    contents: prompt,
+    config: {
+      responseMimeType: 'application/json',
+      temperature: 0.1,
+      abortSignal: AbortSignal.timeout(20_000),
+    },
+    model: env.GEMINI_MODEL || 'gemini-3.5-flash-lite',
+  })
 
-  if (!response.ok) {
-    const errorText = await response.text()
-    throw new Error(`Erro na API de IA (${response.status}): ${errorText}`)
-  }
-
-  const data = geminiGenerateContentResponseSchema.parse(await response.json())
-  const rawText = data.candidates?.[0]?.content?.parts?.find(
-    (part) => part.text
-  )?.text
-
+  const rawText = response.text
   if (!rawText) {
     throw new Error('Resposta vazia do modelo de IA.')
   }

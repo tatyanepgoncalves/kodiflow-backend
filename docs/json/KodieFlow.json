@@ -1,0 +1,407 @@
+{
+  "name": "KodieFlow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "classificar-mensagem",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.2,
+      "position": [
+        -128,
+        32
+      ],
+      "id": "48d807e1-2876-47e4-9f47-335ec2b29995",
+      "name": "Webhook",
+      "webhookId": "4bf74644-dc32-445a-8e9c-4460563abda0"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "963bdcd0-fe0f-4f4c-82dd-55d7385c4095",
+              "name": "customerName",
+              "value": "={{ $json.body.customerName }}",
+              "type": "string"
+            },
+            {
+              "id": "5b6f9f69-f2e7-4dbd-bcfb-07b1459c6b5e",
+              "name": "message",
+              "value": "={{ $json.body.message }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        128,
+        48
+      ],
+      "id": "379dcef1-b97e-45dd-b2d7-4dded874adb6",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3333/messages",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "customerName",
+              "value": "={{ $json.customerName }}"
+            },
+            {
+              "name": "message",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        384,
+        48
+      ],
+      "id": "78c82092-1697-4285-a563-54aca5107bbf",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1296,
+        16
+      ],
+      "id": "f6eb94ea-94a3-40ef-8a9b-a0d1e60ce16d",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f334f0ad-7cd5-4924-b9bf-5e9166017575",
+              "name": "Destino",
+              "value": "Atendimento / Suporte",
+              "type": "string"
+            },
+            {
+              "id": "8e578a88-f47f-4c6a-ac15-816b2cea3443",
+              "name": "status",
+              "value": "encaminhado",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        944,
+        -288
+      ],
+      "id": "b041f302-1e5e-4816-9549-dff01a461039",
+      "name": "Encaminhar Dúvida"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f334f0ad-7cd5-4924-b9bf-5e9166017575",
+              "name": "Destino",
+              "value": "Ouvidoria / Pós-venda",
+              "type": "string"
+            },
+            {
+              "id": "8e578a88-f47f-4c6a-ac15-816b2cea3443",
+              "name": "status",
+              "value": "encaminhado",
+              "type": "string"
+            },
+            {
+              "id": "eba05e0d-8ee3-4b6a-bd40-2b723dab2cbb",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        944,
+        0
+      ],
+      "id": "353e8439-bccb-4de0-b2aa-0002403eb64b",
+      "name": "Encaminhar Reclamação"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f334f0ad-7cd5-4924-b9bf-5e9166017575",
+              "name": "Destino",
+              "value": "Financeiro / Operações",
+              "type": "string"
+            },
+            {
+              "id": "8e578a88-f47f-4c6a-ac15-816b2cea3443",
+              "name": "status",
+              "value": "encaminhado",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        944,
+        256
+      ],
+      "id": "0fd50d84-4ecf-4b9e-a479-798c9c0406be",
+      "name": "Encaminhar Solicitação"
+    },
+    {
+      "parameters": {
+        "content": "Direcionamento para setor responsável",
+        "height": 816,
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        864,
+        -368
+      ],
+      "typeVersion": 1,
+      "id": "f399a741-c3c0-4861-80fc-b06980bd939a",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Dúvida",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "f9500c56-c85d-439e-84e6-96c539cbc931"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Dúvida"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "391bbb26-d4f0-4397-97d4-75f3d347062d",
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Reclamação",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Reclamação"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 4
+                },
+                "conditions": [
+                  {
+                    "id": "bb39848a-839e-4728-8628-24ab7fc4d6d8",
+                    "leftValue": "={{ $json.category }}",
+                    "rightValue": "Solicitação",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Solicitação"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.5,
+      "position": [
+        592,
+        32
+      ],
+      "id": "86ad7991-8c6f-4255-820e-595a4755cb6f",
+      "name": "Switch"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Encaminhar Dúvida": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encaminhar Reclamação": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encaminhar Solicitação": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Encaminhar Dúvida",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Encaminhar Reclamação",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Encaminhar Solicitação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "564020e5-929f-4e7b-8c08-6f269b0dd1f9",
+  "meta": {
+    "instanceId": "4a527706bc4736d9c3fd241408912f19123d93600adab17a2eef53d8673c71a7"
+  },
+  "nodeGroups": [],
+  "id": "zxxY4qUUh9ayyZpu",
+  "tags": []
+}

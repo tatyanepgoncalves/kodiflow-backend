@@ -2,6 +2,8 @@
 
 Solução desenvolvida para o **Desafio Técnico de IA e Automação (KODIE)**, integrando Inteligência Artificial, API REST e fluxos automatizados para otimizar a triagem de mensagens no atendimento ao cliente.
 
+[▶ Assistir demonstração do fluxo](https://youtu.be/29Wqgc7AWhQ?si=DqgTW2HCB7ygI-L9)
+
 ---
 
 ## 1. Apresentação da Ideia
@@ -53,7 +55,7 @@ O fluxo de dados entre os componentes segue a arquitetura abaixo:
        ▼ (Payload JSON)
 [n8n: Webhook Trigger] 
        │
-       ▼ (POST /api/classify)
+       ▼ (POST /messages)
 [API Express + Zod] ──► [Prompt Estruturado] ──► [Modelo de IA]
        │                                               │
        ◄─────────── (Resposta Estruturada JSON) ───────┘
@@ -62,7 +64,7 @@ O fluxo de dados entre os componentes segue a arquitetura abaixo:
 [n8n: Roteamento / Encaminhamento por Categoria]
 ```
 
-### Contrato da API (`POST /api/classify`)
+### Contrato da API (`POST /messages`)
 
 **Exemplo de Entrada (Enviado pelo n8n):**
 ```json
@@ -141,7 +143,30 @@ O servidor estará disponível em `http://localhost:3333`.
 
 > *Nota: Esta seção será preenchida com as capturas de tela (prints) após a finalização da implementação do fluxo no n8n.*
 
-* **[ ] Visão Geral do Fluxo:** Captura de tela exibindo todos os nodes conectados.
-* **[ ] Configuração do Webhook:** Detalhes do método HTTP e rota de entrada.
-* **[ ] Configuração do HTTP Request:** Parâmetros de envio para a API Express.
-* **[ ] Execução Bem-Sucedida & Resultados:** Demonstração dos dados recebidos e classificados em JSON.
+- [x] Visão Geral do Fluxo: Captura de tela exibindo todos os nodes conectados.
+![FLUXO COMPLETO DA APLICAÇÃO](./docs/prints/fluxo-completo.png)
+<br />
+- [x] Configuração do Webhook: Detalhes do método HTTP e rota de entrada.
+![WEBHOOK CONFIG](./docs/prints/webhook-config.png)
+<br />
+- [x] Configuração do HTTP Request: Parâmetros de envio para a API Express.
+
+  ![HTTP request config](./docs/prints/Http-request-config.png)
+
+<br />
+- [x] Execução Bem-Sucedida & Resultados: Demonstração dos dados recebidos e classificados em JSON.
+
+- **DÚVIDA**
+
+  ![FLUXO DÚVIDA](./docs/prints/fluxo-duvida.png)
+  ![EDIT FIELD DÚVIDA](./docs/prints/edit-duvida.png)
+
+- **RECLAMAÇÃO**
+
+  ![FLUXO RECLAMAÇÃO](./docs/prints/fluxo-reclamacao.png)
+  ![EDIT FIELD RECLAMAÇÃO](./docs/prints/edit-reclamacao.png)
+
+- **SOLICITAÇÃO**
+  
+  ![FLUXO SOLICITAÇÃO](./docs/prints/fluxo-solicitacao.png)
+  ![EDIT FIELD SOLICITAÇÃO](./docs/prints/edit-solicitacao.png)

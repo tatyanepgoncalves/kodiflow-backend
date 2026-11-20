@@ -22,6 +22,7 @@
     "start": "node --experimental-strip-types --no-warnings src/server.ts"
   },
   "dependencies": {
+    "@google/genai": "^3.6.0",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
     "drizzle-orm": "^0.45.4",
